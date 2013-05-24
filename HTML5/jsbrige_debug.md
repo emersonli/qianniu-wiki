@@ -7,3 +7,59 @@
 
 ##JSBrige Debug方案的原理##
 
+![原理图](image/proxy.jpg "Title")
+
+如上图所示：为了在PC上开发，需要一台手机代理真实的native api请求。原理大致是：当在PC浏览器里调用native的方法的时候，把调用native的请求转发到代理服务器上，然后通过代理服务器下发到某台手机上，执行完后，把结果再返回给PC
+
+##实现debug的要求##
+
+1. 一台代理服务器（我们已经提供）
+2. 一台代理手机
+3. 一台开发PC
+4. 让PC的JS连到代理服务器上
+5. 让手机连接到代理服务器上
+
+##具体操作步骤##
+
+###让手机连接到代理服务器上###
+
+在插件的某个页面放置一个debug按钮，对开发用户可见，当用户点击debug按钮后，将插件页面跳转到：
+	
+	http://l.tbcdn.cn/apps/top/c/ui/proxy/proxy.html
+	
+该页面如下所示
+![未连接](image/mobile-proxy-unconnect.png "未连接")
+![已连接](image/mobile-proxy-connected.png "已连接")
+
+**请保证手机端是永不锁屏的,否则连接很容易被断开**
+
+###让PC连接到代理服务器上###
+在PC上，通过[fiddler](http://fiddler2.com/) 
+或者 [nproxy](http://blog.goddyzhao.me/post/35906061908/nproxy-fiddler-in-mac-and-linux) 
+或者 [trumpet](https://chrome.google.com/webstore/detail/trumpet/cflekmkldaldnelemkkldoaedapbkmog) 将sdk-mobile.js代理掉，代理的地址是
+
+	http://l.tbcdn.cn/apps/top/c/??sdk-mobile.js,sdk-mobile-debug.js
+	
+笔者使用的是trumpet，一个chrome插件，安装完成后按照上面的要求，配置一条规则：
+![规则](image/rule.png "规则")
+
+这个时候，在PC上请求插件地址：如
+
+	http://jindoucloud.aliapp.com/item/item.html?plugInType=shangpinguanli&uid=89286706&event=event_go_plugin&authString={***有码****}&
+
+插件页面会主动弹出一个输入框（代理JS弹出的,无需惊慌）,在输入框内，输入手机端连接时的8位数字匹配码
+![匹配码](image/pw-input.png "匹配码")
+
+输入成功后,就可以开始调试啦。
+![开始调试](image/result-debug.png "开始调试")
+
+##注意事项##
+
+**PC端连接时，相匹配的手机端必须已连接上，否则会直接断开**
+
+**手机端一旦断开，PC端立马会断开**
+
+**请保证手机端是永不锁屏的，否则一旦锁屏会立马被操作系统断开**
+
+##高级进阶##
+由于代理服务器是我们部署的,理论上,请求都需要先到达杭州进行一次中转,如何在本地起代理服务器,敬请期待。有这个需求的同学,可以联系朱棣提供支持。
