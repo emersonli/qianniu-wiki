@@ -67,4 +67,31 @@
 ![chrome伪装](image/chrome-mobile.png "开始调试")
 
 ##高级进阶##
-由于代理服务器是我们部署的,理论上,请求都需要先到达杭州进行一次中转,如何在本地起代理服务器,敬请期待。有这个需求的同学,可以联系朱棣提供支持。
+###自己部署代理服务器###
+我的网络很差，如何自己部署代理服务器。其实也很简单。
+首先你需要安装[nodejs](http://nodejs.org/).
+然后下载[proxy程序](.proxy.zip)
+
+解压后cd 到当前解压文件下，执行以下命令
+	
+	npm install websocket
+	node websoket.js
+	
+![chrome伪装](image/cmd.png "开始调试")
+
+代理服务器已经起来了，那接下来我们需要：
+
+1、让手机连接到自定义的代理服务器上
+在proxy页面后，加上hash，如：
+
+	http://l.tbcdn.cn/apps/top/c/ui/proxy/proxy.html#host=127.0.0.1
+	
+2、让chrome连接到自定义代理服务器
+将代理JS改成:
+
+	http://l.tbcdn.cn/apps/top/c/??sdk-mobile.js,sdk-mobile-debug.js?host=127.0.0.1
+	
+恭喜你，大功告成！
+
+
+
