@@ -92,7 +92,7 @@
 2、让chrome连接到自定义代理服务器
 将代理JS改成:
 
-	http://l.tbcdn.cn/apps/top/c/??sdk-mobile.js,sdk-mobile-debug.js?host=127.0.0.1
+	http://l.tbcdn.cn/apps/top/c/??sdk-mobile.js,sdk-mobile-debug.js#host=127.0.0.1
 	
 恭喜你，大功告成！
 
